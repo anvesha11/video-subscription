@@ -1,0 +1,14 @@
+{% extends 'courses/base.html' %}
+
+{% block content %}
+        <h1>Lesson Detail View</h1>
+        {{ object.title }}
+        {% if object is not None %}
+            {{ object.title }}
+            {{ object.description }}
+        {% else %}
+        <!-- We have else statement for entertaining with the condition when the user's plan doesn't allow them -->
+            <h3> Upgrade membership</h3>
+
+        {% endif %}
+    {% endblock %}

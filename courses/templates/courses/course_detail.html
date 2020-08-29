@@ -1,0 +1,9 @@
+{% extends 'courses/base.html' %}
+
+{% block content %}
+        <!-- For detail view we use the course being passed in as it gives the object variable here -->
+        {{ object.title }}
+        {% for lesson in object.lessons %}
+            <a href="{{ lesson.get_absolute_url }}">{{ lesson.title }}</a>
+        {% endfor %}
+        {% endblock %}

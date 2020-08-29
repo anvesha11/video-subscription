@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'memberships',
+    'courses',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,13 @@ VENV_PATH = os.path.dirname(BASE_DIR)
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(VENV_PATH, 'media_root')
+
+if DEBUG:
+    STRIPE_PUBLISHABLE_KEY = 'pk_test_51H9oAfIqwQNVr10HKAwdOtTAxq1YPF4eirGL95K1nvl7bbglT5RFW99cdCztUQBbnJpqVsBZ0dqD7uFCDgvGnhTF004BwzEfig'
+
+    STRIPE_SECRET_KEY = 'sk_test_51H9oAfIqwQNVr10HoSqAiKMLZHz2dBeYDiy2EwgbEd1ZwbdBPg1az2LFq6gQ3VzgvpWYjtmpIG3N9gxDguWXn62y00gY3lBxuZ'
+
+else:
+    #live keys
+    STRIPE_PUBLISHABLE_KEY = ''
+    STRIPE_SECRET_KEY = ''
