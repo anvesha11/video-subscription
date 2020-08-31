@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View
 #detail view gives a more detailed description of every view
 from memberships.models import UserMembership
-from .models import Course
+from .models import Course, Lesson
 #using class based views as it's esentially the simplest way to do it
 
 #CourseListView is inherited from ListView so it takes it as a parameter

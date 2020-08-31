@@ -11,16 +11,16 @@
     <div class="container">
 		<ol class='breadcrumb'>
             <li><a href='/'>Home</a></li>
-	        <li><a href='/profile'>Profile</a></li>
+	        <li><a href='/profile/'>Profile</a></li>
 	        
 	        {% block post_detail_link %}
 	        {% endblock %}
 
 	        {% if not request.user.is_authenticated %}
-	        <li class='pull-right'><a href='/register'>Register</a></li>
-	        <li class='pull-right'><a href='/login'>Login</a></li>
+	        <li class='pull-right'><a href='/register/'>Register</a></li>
+	        <li class='pull-right'><a href='/login/'>Login</a></li>
 	        {% else %}
-	        <li class='pull-right'><a href='/memberships'>Memberships</a></li>
+	        <li class='pull-right'><a href='/memberships/'>Memberships</a></li>
 	        {% endif %}
 	    </ol>
     </div>

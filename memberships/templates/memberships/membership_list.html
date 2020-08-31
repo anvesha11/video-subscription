@@ -1,0 +1,42 @@
+{% extends 'courses/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Select a membership</h1>
+    <div class = "row">
+        <!-- we're looping through all the membership types -->
+        {% for object in object_list %}
+            <div class = "col-sm-4 col-md-4">
+                <h2>{{ object.membership_type }}</h2>
+                <p>Price: ${{ object.monthly_price }}<small>/month</small></p>
+                <h4>Included Courses</h4>
+                <ul>
+                    {% for course in object.course_set.all %}
+                        <li>{{ course.title }}</li>
+                    {% endfor %}
+                </ul>
+
+                <!-- while looping we only show the pay option form for the membership type if it's not FREE -->
+                {% if object.membership_type != 'Free' %}
+                <form method = "POST" action="{% url 'memberships:select' %}">
+                    {% csrf_token %}
+                    <!-- making sure the membership they're selecting is not the one which they currently have -->
+                    {% if object.membership_type != current_membership %}
+                        <button class="btn btn-warning">Select</button>
+                        {% else %}
+                            <small>This is your current membership</small>
+                    {% endif %}
+                    <!-- parsing the input membership_type but it shouldn't be shown to the user. also the only thing being passed into the form-->
+                    <input type = "hidden" name = "membership_type" value="{{object.membership_type }}">
+
+                    
+
+                </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock content %}
