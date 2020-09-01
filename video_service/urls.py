@@ -7,7 +7,7 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('courses/', include('courses.urls', namespace = 'courses')),
+    path('', include('courses.urls', namespace = 'courses')),
     path('memberships/', include('memberships.urls', namespace='memberships')),
  ]
 if settings.DEBUG:

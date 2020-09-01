@@ -15,15 +15,14 @@ class CourseDetailView(DetailView):
 class LessonDetailView(View):
     #we filter courses and lessons using slugs
     def get(self, request, course_slug, lesson_slug, *args, **kwargs):
-        course_qs = Course.objects.filter(slug=course_slug)
-        if course_qs.exists():
-            course = course_qs.first()
-        #qs is query set
+        # course_qs = Course.objects.filter(slug=course_slug)
+        # # if course_qs.exists():
+        # course = course_qs.first()
+        #qs is query set 
         #how do we actually get lessons to filter out?
         #lessons are grabbed from the models.py we just edited
-        lesson_qs = course.lessons.filter(slug=lesson_slug)
-        if lesson_qs.exists():
-            lesson = lesson_qs.first()
+        course = get_object_or_404(Course, slug=course_slug)
+        lesson = get_object_or_404(Lesson, slug=lesson_slug)
         
         #check the type of membership first & based on that, we'll decide what to show to the user
         user_membership = UserMembership.objects.filter(user=request.user).first()
