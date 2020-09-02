@@ -11,6 +11,17 @@ from .models import Membership, UserMembership, Subscription
 
 import stripe
 
+
+def profile_view(request):
+    user_membership = get_user_membership(request)
+    user_subscription = get_user_membership(request)
+    context = {
+        'user_membership': user_membership,
+        'user_subscription': user_subscription
+    }
+    return render(request, "memberships/profile.html", context)
+
+
 def get_user_membership(request):
     user_membership_qs = UserMembership.objects.filter(user=request.user)
     if user_membership_qs.exists():
@@ -116,15 +127,12 @@ def PaymentView(request):
         except:
             messages.info(request, "An error has occurred, investigate it in the console")
 
-    context = {
-        'publishKey': publishKey,
-        'selected_membership': selected_membership
-    }
+    context = {'publishKey': publishKey, 'selected_membership': selected_membership}
 
     return render(request, "memberships/membership_payment.html", context)
 
 # @login_required
-def updateTransactions(request, subscription_id):
+def updateTransactionRecords(request, subscription_id):
     user_membership = get_user_membership(request)
     selected_membership = get_selected_membership(request)
     user_membership.membership = selected_membership
@@ -144,7 +152,34 @@ def updateTransactions(request, subscription_id):
     messages.info(request, 'Successfully created {} membership'.format(
         selected_membership))
     return redirect(reverse('memberships:select'))
-    # return redirect('/courses')
+    # return redirect('/courses/')
+
+
+
+def cancelSubscription(request):
+    user_sub = get_user_subscription(request)
+
+    if user_sub.active == False:
+        messages.info(request, "You don't have an active membership")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    sub = stripe.Subscription.retrieve(user_sub.stripe_subscription_id)
+    sub.delete()
+
+    user_sub.active = False
+    user_sub.save()
+
+    free_membership = Membership.objects.filter(membership_type='False').first()
+    user_membership = get_user_membership(request)
+    user_membership.membership = free_membership
+    user_membership.save()
+
+    messages.info(request, "Successfully calcelled membership. We have sent an email")
+    # sending an email here
+
+    return HttpResponseRedirect('/memberships/')
+
+
 
 
 

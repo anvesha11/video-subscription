@@ -74,3 +74,15 @@ class Subscription(models.Model):
 
     def __str__(self):
         return self.user_membership.user.username
+
+
+    #this is created to get the next due date and the created date to display to the user
+    @property
+    def get_created_date(self):
+        subscription = stripe.Subscription.retrieve(self.stripe_subscription_id)
+        return datetime.fromtimestamp(subscription.created)
+
+    @property
+    def get_next_billing_date(self):
+        subscription = stripe.Subscription.retrieve(self.stripe_subscription_id)
+        return datetime.fromtimestamp(subscription.current_period_end)
